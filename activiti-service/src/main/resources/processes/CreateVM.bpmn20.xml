@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://activiti.com/modeler" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/processdef" modeler:version="1.0ev" modeler:exportDateTime="20160406091656" modeler:modelId="976718" modeler:modelVersion="1" modeler:modelLastUpdated="1459930590151">
+  <process id="CreateVM" name="CreateVM" isExecutable="true">
+    <startEvent id="startEvent1" name="startProcess"></startEvent>
+    <sequenceFlow id="sid-42CB5E1E-9918-4197-A356-A4E5DD075AEA" sourceRef="startEvent1" targetRef="sid-82960AC7-43D8-41C3-A3E2-32AE2A8580D2"></sequenceFlow>
+    <exclusiveGateway id="sid-841F7060-5E40-453E-98FD-1F3D4BE5D473"></exclusiveGateway>
+    <serviceTask id="sid-FDCA2DB5-DDC8-4656-9AC7-6A8241108613" name="Send Message" activiti:type="mail">
+      <extensionElements>
+        <activiti:field name="to">
+          <activiti:string><![CDATA[bojanmartinovic@ymail.com]]></activiti:string>
+        </activiti:field>
+        <activiti:field name="from">
+          <activiti:string><![CDATA[no-reply@activiti.com]]></activiti:string>
+        </activiti:field>
+        <activiti:field name="html">
+          <activiti:expression><![CDATA[You've successfully created the VM data, to view the list vm 's click  <a href="http://localhost:8081/activiti-service/reviewVirtualMachine?processKey=${processKey}">here </a>]]></activiti:expression>
+        </activiti:field>
+        <activiti:field name="subject">
+          <activiti:string><![CDATA[activiti]]></activiti:string>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="sid-D4902E16-9024-48D1-910E-59E247119DCA" sourceRef="sid-82960AC7-43D8-41C3-A3E2-32AE2A8580D2" targetRef="sid-841F7060-5E40-453E-98FD-1F3D4BE5D473"></sequenceFlow>
+    <userTask id="sid-82960AC7-43D8-41C3-A3E2-32AE2A8580D2" name="StartManu" activiti:assignee="$INITIATOR">
+      <extensionElements>
+        <modeler:allow-send-email>true</modeler:allow-send-email>
+        <modeler:activiti-idm-initiator>true</modeler:activiti-idm-initiator>
+      </extensionElements>
+    </userTask>
+    <userTask id="sid-FD68BCE6-DFA6-4007-80B5-B14C62355800" name="DeleteVM" activiti:assignee="$INITIATOR">
+      <extensionElements>
+        <modeler:allow-send-email>true</modeler:allow-send-email>
+        <modeler:activiti-idm-initiator>true</modeler:activiti-idm-initiator>
+      </extensionElements>
+    </userTask>
+    <endEvent id="sid-A2BDC193-BD4E-41BC-9FD2-5F246DBCFCF2"></endEvent>
+    <serviceTask id="sid-9DCA1D8D-12AC-410A-998C-20338AD90E64" name="SaveVM" activiti:expression="${vmService.saveVM(virtualMachineDTO)}"></serviceTask>
+    <sequenceFlow id="sid-F53984B9-6454-47B8-92EB-F3D0452D85F5" sourceRef="sid-9DCA1D8D-12AC-410A-998C-20338AD90E64" targetRef="sid-FDCA2DB5-DDC8-4656-9AC7-6A8241108613"></sequenceFlow>
+    <sequenceFlow id="sid-8E69055B-676A-404F-85F5-479AA7A71ED7" sourceRef="sid-FD68BCE6-DFA6-4007-80B5-B14C62355800" targetRef="mailtask1"></sequenceFlow>
+    <sequenceFlow id="sid-7AD01CEA-6097-46C6-9D40-E6948E97549F" sourceRef="sid-841F7060-5E40-453E-98FD-1F3D4BE5D473" targetRef="sid-FD68BCE6-DFA6-4007-80B5-B14C62355800">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${action=="delete"}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="sid-758547FA-5D9E-40F5-A87A-82E0CA3244AC" sourceRef="usertask1" targetRef="sid-A2BDC193-BD4E-41BC-9FD2-5F246DBCFCF2"></sequenceFlow>
+    <userTask id="sid-0CC30ECB-A633-485F-AB6B-8E280FBA568D" name="CreateVM"></userTask>
+    <sequenceFlow id="flow1" sourceRef="sid-841F7060-5E40-453E-98FD-1F3D4BE5D473" targetRef="sid-0CC30ECB-A633-485F-AB6B-8E280FBA568D">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${action=="create"}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow2" sourceRef="sid-0CC30ECB-A633-485F-AB6B-8E280FBA568D" targetRef="sid-9DCA1D8D-12AC-410A-998C-20338AD90E64"></sequenceFlow>
+    <serviceTask id="mailtask1" name="Send Message" activiti:type="mail">
+      <extensionElements>
+        <activiti:field name="html">
+          <activiti:expression><![CDATA[You've successfully deleted the VM data, to view the list vm 's click <a href="http://localhost:8081/activiti-service/reviewVirtualMachine?processKey=${processKey}">here </a>]]></activiti:expression>
+        </activiti:field>
+        <activiti:field name="to">
+          <activiti:string><![CDATA[bojanmartinovic@ymail.com]]></activiti:string>
+        </activiti:field>
+        <activiti:field name="from">
+          <activiti:string><![CDATA[no-reply@activiti.com]]></activiti:string>
+        </activiti:field>
+        <activiti:field name="subject">
+          <activiti:string><![CDATA[activiti]]></activiti:string>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <userTask id="usertask1" name="Reviews Virtual-Machines"></userTask>
+    <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow3" sourceRef="mailtask1" targetRef="exclusivegateway1"></sequenceFlow>
+    <sequenceFlow id="flow4" sourceRef="sid-FDCA2DB5-DDC8-4656-9AC7-6A8241108613" targetRef="exclusivegateway1"></sequenceFlow>
+    <sequenceFlow id="flow5" sourceRef="exclusivegateway1" targetRef="usertask1"></sequenceFlow>
+    <userTask id="usertask2" name="UpdateVM"></userTask>
+    <sequenceFlow id="flow6" sourceRef="sid-841F7060-5E40-453E-98FD-1F3D4BE5D473" targetRef="usertask2">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${action=="update"}]]></conditionExpression>
+    </sequenceFlow>
+    <userTask id="usertask4" name="Change&amp;SaveVM"></userTask>
+    <sequenceFlow id="flow7" sourceRef="usertask2" targetRef="usertask4"></sequenceFlow>
+    <sequenceFlow id="flow8" sourceRef="usertask4" targetRef="mailtask2"></sequenceFlow>
+    <sequenceFlow id="flow9" sourceRef="mailtask2" targetRef="exclusivegateway1"></sequenceFlow>
+    <serviceTask id="mailtask2" name="Send Message" activiti:type="mail">
+      <extensionElements>
+        <activiti:field name="to">
+          <activiti:string><![CDATA[bojanmartinovic@ymail.com]]></activiti:string>
+        </activiti:field>
+        <activiti:field name="from">
+          <activiti:string><![CDATA[no-reply@activiti.com]]></activiti:string>
+        </activiti:field>
+        <activiti:field name="subject">
+          <activiti:string><![CDATA[activiti]]></activiti:string>
+        </activiti:field>
+        <activiti:field name="html">
+          <activiti:expression><![CDATA[You've successfully updated the VM data, to view the list vm 's click <a href="http://localhost:8081/activiti-service/reviewVirtualMachine?processKey=${processKey}">here </a>]]></activiti:expression>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <boundaryEvent id="boundarytimer1" name="Timer" attachedToRef="usertask1" cancelActivity="true">
+      <timerEventDefinition>
+        <timeDuration>PT5M</timeDuration>
+      </timerEventDefinition>
+    </boundaryEvent>
+    <sequenceFlow id="flow10" sourceRef="boundarytimer1" targetRef="sid-A2BDC193-BD4E-41BC-9FD2-5F246DBCFCF2"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_CreateVM">
+    <bpmndi:BPMNPlane bpmnElement="CreateVM" id="BPMNPlane_CreateVM">
+      <bpmndi:BPMNShape bpmnElement="startEvent1" id="BPMNShape_startEvent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="291.0" y="228.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sid-841F7060-5E40-453E-98FD-1F3D4BE5D473" id="BPMNShape_sid-841F7060-5E40-453E-98FD-1F3D4BE5D473">
+        <omgdc:Bounds height="40.0" width="40.0" x="427.0" y="500.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sid-FDCA2DB5-DDC8-4656-9AC7-6A8241108613" id="BPMNShape_sid-FDCA2DB5-DDC8-4656-9AC7-6A8241108613">
+        <omgdc:Bounds height="80.0" width="100.0" x="944.0" y="710.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sid-82960AC7-43D8-41C3-A3E2-32AE2A8580D2" id="BPMNShape_sid-82960AC7-43D8-41C3-A3E2-32AE2A8580D2">
+        <omgdc:Bounds height="80.0" width="100.0" x="259.0" y="340.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sid-FD68BCE6-DFA6-4007-80B5-B14C62355800" id="BPMNShape_sid-FD68BCE6-DFA6-4007-80B5-B14C62355800">
+        <omgdc:Bounds height="80.0" width="100.0" x="515.0" y="329.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sid-A2BDC193-BD4E-41BC-9FD2-5F246DBCFCF2" id="BPMNShape_sid-A2BDC193-BD4E-41BC-9FD2-5F246DBCFCF2">
+        <omgdc:Bounds height="35.0" width="35.0" x="1160.0" y="427.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sid-9DCA1D8D-12AC-410A-998C-20338AD90E64" id="BPMNShape_sid-9DCA1D8D-12AC-410A-998C-20338AD90E64">
+        <omgdc:Bounds height="80.0" width="100.0" x="727.0" y="710.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sid-0CC30ECB-A633-485F-AB6B-8E280FBA568D" id="BPMNShape_sid-0CC30ECB-A633-485F-AB6B-8E280FBA568D">
+        <omgdc:Bounds height="85.0" width="105.0" x="520.0" y="614.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="mailtask1" id="BPMNShape_mailtask1">
+        <omgdc:Bounds height="80.0" width="100.0" x="727.0" y="329.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask1" id="BPMNShape_usertask1">
+        <omgdc:Bounds height="80.0" width="100.0" x="944.0" y="100.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="boundarytimer1" id="BPMNShape_boundarytimer1">
+        <omgdc:Bounds height="30.0" width="30.0" x="1034.0" y="170.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">
+        <omgdc:Bounds height="40.0" width="40.0" x="973.0" y="348.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask2" id="BPMNShape_usertask2">
+        <omgdc:Bounds height="80.0" width="105.0" x="512.0" y="480.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask4" id="BPMNShape_usertask4">
+        <omgdc:Bounds height="80.0" width="105.0" x="662.0" y="480.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="mailtask2" id="BPMNShape_mailtask2">
+        <omgdc:Bounds height="80.0" width="105.0" x="820.0" y="480.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="sid-42CB5E1E-9918-4197-A356-A4E5DD075AEA" id="BPMNEdge_sid-42CB5E1E-9918-4197-A356-A4E5DD075AEA">
+        <omgdi:waypoint x="308.0" y="263.0"></omgdi:waypoint>
+        <omgdi:waypoint x="309.0" y="340.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-D4902E16-9024-48D1-910E-59E247119DCA" id="BPMNEdge_sid-D4902E16-9024-48D1-910E-59E247119DCA">
+        <omgdi:waypoint x="309.0" y="420.0"></omgdi:waypoint>
+        <omgdi:waypoint x="308.0" y="520.0"></omgdi:waypoint>
+        <omgdi:waypoint x="427.0" y="520.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-F53984B9-6454-47B8-92EB-F3D0452D85F5" id="BPMNEdge_sid-F53984B9-6454-47B8-92EB-F3D0452D85F5">
+        <omgdi:waypoint x="827.0" y="750.0"></omgdi:waypoint>
+        <omgdi:waypoint x="944.0" y="750.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-8E69055B-676A-404F-85F5-479AA7A71ED7" id="BPMNEdge_sid-8E69055B-676A-404F-85F5-479AA7A71ED7">
+        <omgdi:waypoint x="615.0" y="369.0"></omgdi:waypoint>
+        <omgdi:waypoint x="727.0" y="369.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-7AD01CEA-6097-46C6-9D40-E6948E97549F" id="BPMNEdge_sid-7AD01CEA-6097-46C6-9D40-E6948E97549F">
+        <omgdi:waypoint x="447.0" y="500.0"></omgdi:waypoint>
+        <omgdi:waypoint x="447.0" y="369.0"></omgdi:waypoint>
+        <omgdi:waypoint x="515.0" y="369.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-758547FA-5D9E-40F5-A87A-82E0CA3244AC" id="BPMNEdge_sid-758547FA-5D9E-40F5-A87A-82E0CA3244AC">
+        <omgdi:waypoint x="1044.0" y="140.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1177.0" y="140.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1177.0" y="427.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+        <omgdi:waypoint x="447.0" y="540.0"></omgdi:waypoint>
+        <omgdi:waypoint x="447.0" y="657.0"></omgdi:waypoint>
+        <omgdi:waypoint x="520.0" y="656.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
+        <omgdi:waypoint x="572.0" y="699.0"></omgdi:waypoint>
+        <omgdi:waypoint x="573.0" y="750.0"></omgdi:waypoint>
+        <omgdi:waypoint x="727.0" y="750.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
+        <omgdi:waypoint x="827.0" y="369.0"></omgdi:waypoint>
+        <omgdi:waypoint x="973.0" y="368.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
+        <omgdi:waypoint x="994.0" y="710.0"></omgdi:waypoint>
+        <omgdi:waypoint x="993.0" y="388.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
+        <omgdi:waypoint x="993.0" y="348.0"></omgdi:waypoint>
+        <omgdi:waypoint x="994.0" y="180.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow6" id="BPMNEdge_flow6">
+        <omgdi:waypoint x="467.0" y="520.0"></omgdi:waypoint>
+        <omgdi:waypoint x="512.0" y="520.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow7" id="BPMNEdge_flow7">
+        <omgdi:waypoint x="617.0" y="520.0"></omgdi:waypoint>
+        <omgdi:waypoint x="662.0" y="520.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow8" id="BPMNEdge_flow8">
+        <omgdi:waypoint x="767.0" y="520.0"></omgdi:waypoint>
+        <omgdi:waypoint x="820.0" y="520.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow9" id="BPMNEdge_flow9">
+        <omgdi:waypoint x="925.0" y="520.0"></omgdi:waypoint>
+        <omgdi:waypoint x="992.0" y="520.0"></omgdi:waypoint>
+        <omgdi:waypoint x="993.0" y="388.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow10" id="BPMNEdge_flow10">
+        <omgdi:waypoint x="1064.0" y="185.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1177.0" y="184.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1177.0" y="427.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

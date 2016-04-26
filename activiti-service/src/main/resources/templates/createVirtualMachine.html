@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>
+        Create Virtual Machine
+    </title>
+    <link href="../static/css/style.css"
+         th:href="@{css/style.css}" rel="stylesheet" media="screen"/>
+
+    <style type="text/css">
+	html { 
+	 background: url(img/Picture1.jpg) no-repeat center center fixed; 
+	}
+	</style>
+
+</head>
+<body>
+<div class="wrapper">
+	<div class="app">
+		<h1>Create Virtual Machine</h1>
+
+		<div>
+		    <form th:object="${virtualMachineDTO}" method="post" th:action="@{/createVirtualMachine}">
+		    	<input type="hidden" th:value="${processKey}" name="processKey" />
+				<label for="name">Virtual machine name: </label>
+				<input type="text" placeholder="Enter name" required="required" th:field="*{name}"/><br></br>
+				
+				<label for="ram" class="storage">Use storage: </label>    		
+				<input type="text" placeholder="Enter ram" required="required" th:field="*{ram}"/><br></br>
+				   
+		        <button type="submit" value="Save" name="SAVE" class="btn btn-1 btn-1e">SAVE</button>
+		        
+		    </form>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

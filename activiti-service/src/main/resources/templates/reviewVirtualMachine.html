@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>
+        Review Virtual Machine
+    </title>
+	<!-- <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />  -->
+	<link href="../static/css/style.css"
+         th:href="@{css/style.css}" rel="stylesheet" media="screen"/>
+         
+</head>
+<body>
+<div class="wrapper">
+	<div class="app">
+		<h1>Review Virtual Machine</h1>
+	<div>
+		<table>
+			<tr>
+	        	<th>id</th>
+	       		<th>ipAddress</th>
+	       		<th>name</th>
+	       		<th>ram</th>
+	       		<th>status</th>
+	   		</tr>		
+	        <tr th:each="virtualMachineDTO : ${virtualMachines}">
+	            <td th:text="${virtualMachineDTO.id}"></td>
+	            <td th:text="${virtualMachineDTO.ipAddress}"></td> 
+	            <td th:text="${virtualMachineDTO.name}"></td>
+	            <td th:text="${virtualMachineDTO.ram}"></td>
+	            <td th:text="${virtualMachineDTO.status}"></td>
+	        </tr>
+	    </table>
+	    <form method="post" th:action="@{/reviewVirtualMachine}">
+	    	<button type="submit" value="ON" name="action" class="btn btn-1 btn-1e">Review Active Machine</button>
+			<button type="submit" value="OFF" name="action" class="btn btn-1 btn-1e">Review Inactive Machine</button>
+			<button type="submit" value="ALL" name="action" class="btn btn-1 btn-1e">Review All Machine</button>
+	    </form><!--end form  -->
+		
+	   	<a href="http://localhost:8081/activiti-service/startmanu">
+	  		<button type="button" value="Back to start menu" name="Back to start menu" class="btn btn-1 btn-1e">Back to start menu</button>
+		</a>
+	</div>
+</div>
+</div>
+</body>
+</html>

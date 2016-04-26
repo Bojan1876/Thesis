@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Microservice Approval</title>
+
+<link href="../static/css/style.css"
+         th:href="@{css/style.css}" rel="stylesheet" media="screen"/>
+
+</head>
+<body>
+<div class="wrapper">
+	<div class="app">
+		<h1>Start SpringBoot Aplication</h1>
+	
+		<div>
+			<form th:action="@{/startmanu}" method="post">
+				<input type="hidden" th:value="${processKey}" name="processKey" />
+				<button type="submit" value="create" name="action" class="btn btn-1 btn-1e">create</button>
+				<button type="submit" value="delete" name="action" class="btn btn-1 btn-1e">delete</button>
+				<button type="submit" value="update" name="action" class="btn btn-1 btn-1e">update</button>
+			</form>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

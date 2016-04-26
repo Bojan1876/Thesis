@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>
+        Update Virtual Machine
+    </title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link href="../static/css/style.css"
+         th:href="@{css/style.css}" rel="stylesheet" media="screen"/> 
+
+</head>
+<body>
+
+<div class="wrapper">
+	<div class="app">
+		<h1>Update Virtual Machine</h1>
+			<div>
+		    	<label class="labelName" for="Id">Virtual Machines </label>
+				<table>
+					<tr>
+		        		<th>id</th>
+		       			<th>ipAddress</th>
+		        		<th>name</th>
+		        		<th>ram</th>
+		        		<th>status</th>
+		        		<th>action</th>
+		      		</tr>		
+		            <tr th:each="virtualMachineDTO : ${virtualMachines}">
+		                <td th:text="${virtualMachineDTO.id}"></td>
+		                <td th:text="${virtualMachineDTO.ipAddress}"></td> 
+		                <td th:text="${virtualMachineDTO.name}"></td>
+		                <td th:text="${virtualMachineDTO.ram}"></td>
+		                <td th:text="${virtualMachineDTO.status}"></td>
+		                <td>
+		                	<form th:object="${virtualMachineDTO}" method="post" th:action="@{/updateVirtualMachine}">
+		   						<input type="hidden" th:value="${processKey}" name="processKey" />
+		   						<input type="hidden" th:value="${virtualMachineDTO.id}" name="id" />
+		  						<input type="submit" value="Update" />
+							</form>
+						</td>
+		            </tr>
+		         </table>
+		</div>
+		
+	</div>
+</div>	
+</body>
+</html>

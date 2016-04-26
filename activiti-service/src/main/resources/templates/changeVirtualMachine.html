@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>
+        Change Virtual Machine
+    </title>
+    <link href="../static/css/style.css"
+         th:href="@{css/style.css}" rel="stylesheet" media="screen"/>
+
+</head>
+<body>
+<div class="wrapper">
+	<div class="app">
+		<h1>Change Virtual Machine</h1>
+
+		<div>
+		    <form th:object="${virtualMachineDTO}" method="post" th:action="@{/changeVirtualMachine}">
+		     <div  class="form-wrapper">
+		    	<input type="hidden" th:value="${processKey}" name="processKey" />
+		    	<input type="hidden" th:field="*{id}"/><br></br>
+		    	
+				<label for="name">Virtual machine name: </label>
+				<input type="text" placeholder="Enter name" required="required" th:field="*{name}"/><br></br>
+				
+				<label for="ram" class="storage">Use storage: </label>    		
+				<input type="text" placeholder="Enter ram" required="required" th:field="*{ram}"/><br></br>
+				
+				<label for="ipAddress">Ip address: </label>
+				<input type="text" placeholder="Enter ipAddress" required="required" th:field="*{ipAddress}"/><br></br>
+				
+				 <label for="name">Status: </label>
+				 <select th:field="*{status}">
+				 	<option th:each="status : ${allStatuses}" 
+				          th:value="${status}" 
+				          th:text="${status}"></option>
+				</select><br></br>
+			 </div><!-- end form-wrapper -->  
+		        <button type="submit" value="Change" name="Change" class="btn btn-1 btn-1e button-change">CHANGE</button>
+		        
+		    </form>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>
