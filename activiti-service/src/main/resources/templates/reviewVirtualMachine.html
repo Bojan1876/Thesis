@@ -31,10 +31,12 @@
 	            <td th:text="${virtualMachineDTO.status}"></td>
 	        </tr>
 	    </table>
+	    
+	    <h2>Virtual machines can be viewed</h2>
 	    <form method="post" th:action="@{/reviewVirtualMachine}">
-	    	<button type="submit" value="ON" name="action" class="btn btn-1 btn-1e">Review Active Machine</button>
-			<button type="submit" value="OFF" name="action" class="btn btn-1 btn-1e">Review Inactive Machine</button>
-			<button type="submit" value="ALL" name="action" class="btn btn-1 btn-1e">Review All Machine</button>
+	    	<button type="submit" value="ON" name="action" class="btn btn-1 btn-1e">ON</button>
+			<button type="submit" value="OFF" name="action" class="btn btn-1 btn-1e">OFF</button>
+			<button type="submit" value="ALL" name="action" class="btn btn-1 btn-1e">ALL</button>
 	    </form><!--end form  -->
 		
 	   	<a href="http://localhost:8081/activiti-service/startmanu">
